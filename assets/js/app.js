@@ -825,8 +825,6 @@ function handleKeypadClick(event) {
     !activeSession.typed
   );
 }
-  elements.typedAnswer.classList.toggle("answer-placeholder", !activeSession.typed);
-}
 
 function beginBackspacePress(event) {
   if (!event.target.closest('[data-key="backspace"]')) return;
