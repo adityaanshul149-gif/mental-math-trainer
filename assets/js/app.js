@@ -674,7 +674,7 @@ function finishAttempt({ correct, classification, reason, enteredAnswer = "" }) 
     if (!activeSession) return;
     activeSession.currentIndex += 1;
     showCurrentQuestion();
-  }, 1600);
+  }, 2000);
 }
 
 function revealAnswer() {
@@ -788,13 +788,9 @@ function handleKeypadClick(event) {
 
   } else {
 
-    const categoryName = elements.questionCategory.textContent.toLowerCase();
+    const question = elements.questionText.textContent;
 
-    const calculatorMode =
-      categoryName.includes("multiplication") ||
-      categoryName.includes("square") ||
-      categoryName.includes("cube") ||
-      categoryName.includes("power");
+const calculatorMode = question.includes("×");
 
     if (key === "." && activeSession.typed.includes(".")) return;
 
@@ -805,19 +801,18 @@ function handleKeypadClick(event) {
       activeSession.typed += "%";
     }
 
-    else if (key === "-") {
-      if (activeSession.typed.startsWith("-")) return;
-      activeSession.typed = "-" + activeSession.typed;
-    }
+else if (key === "-") {
+    if (activeSession.typed.startsWith("-")) return;
+    activeSession.typed = "-" + activeSession.typed;
+}
 
-    else if (calculatorMode) {
-      activeSession.typed = key + activeSession.typed;
-    }
+else if (calculatorMode) {
+    activeSession.typed = key + activeSession.typed;
+}
 
-    else {
-      activeSession.typed += key;
-    }
-  }
+else {
+    activeSession.typed += key;
+}
 
   elements.typedAnswer.textContent = activeSession.typed || "Your answer";
   elements.typedAnswer.classList.toggle(
