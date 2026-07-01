@@ -819,6 +819,7 @@ else {
     "answer-placeholder",
     !activeSession.typed
   );
+      }
 }
 
 function beginBackspacePress(event) {
