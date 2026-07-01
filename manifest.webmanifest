@@ -1,0 +1,30 @@
+{
+  "id": "./",
+  "name": "Recall — Mental Math & Knowledge Trainer",
+  "short_name": "Recall",
+  "description": "A fast, private, offline-first recall trainer.",
+  "start_url": "./#home",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#090b10",
+  "theme_color": "#090b10",
+  "categories": [
+    "education",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "./assets/icons/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/app-icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

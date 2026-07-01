@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090b10">
+  <meta name="description" content="A fast, private, offline-first recall trainer.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Recall">
+  <title>Recall — Mental Math Trainer</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icons/app-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/icons/app-icon.svg">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+  <script src="./assets/js/app.js" type="module"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <div class="app-shell">
+    <header class="top-bar">
+      <a class="brand" href="#home" aria-label="Recall home">
+        <span class="brand-mark" aria-hidden="true">R</span>
+        <span>Recall</span>
+      </a>
+      <div class="status-pill" id="connection-status" role="status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="connection-label">Checking…</span>
+      </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="view" data-view="home" aria-labelledby="home-title">
+        <div class="hero compact-hero">
+          <p class="eyebrow">Rapid recall training</p>
+          <h1 id="home-title">Think less.<br><span>Recall faster.</span></h1>
+          <p class="hero-copy">Choose a focused session, answer from the custom keypad, and train for faster recall.</p>
+        </div>
+
+        <div class="metric-grid" aria-label="Library summary">
+          <article class="metric-card"><span id="category-count">0</span><p>Categories</p></article>
+          <article class="metric-card"><span id="card-count">0</span><p>Cards</p></article>
+          <article class="metric-card"><span id="favourite-count">0</span><p>Favourites</p></article>
+        </div>
+
+        <section class="today-card library-callout" aria-labelledby="library-callout-title">
+          <div>
+            <p class="card-label">Ready when you are</p>
+            <h2 id="library-callout-title">Turn knowledge into reflex.</h2>
+            <p>Build a session from any combination of your categories.</p>
+          </div>
+          <a class="primary-button" href="#practice">Start practice</a>
+        </section>
+
+        <div class="feature-grid">
+          <a class="feature-card actionable-card" href="#library">
+            <span class="feature-icon" aria-hidden="true">＋</span>
+            <div><h2>Create manually</h2><p>Add categories and individual cards with no coding.</p></div>
+          </a>
+          <a class="feature-card actionable-card" href="#import">
+            <span class="feature-icon" aria-hidden="true">⇩</span>
+            <div><h2>Paste a list</h2><p>Turn question = answer lines into cards after a safe preview.</p></div>
+          </a>
+          <a class="feature-card actionable-card" href="#settings">
+            <span class="feature-icon" aria-hidden="true">◌</span>
+            <div><h2>Make it yours</h2><p>Choose the appearance that feels best on this device.</p></div>
+          </a>
+        </div>
+      </section>
+
+      <section class="view" data-view="practice" aria-labelledby="practice-title" hidden>
+        <div id="session-builder">
+          <div class="page-heading">
+            <p class="eyebrow">Build a session</p>
+            <h1 id="practice-title">Practice</h1>
+            <p>Choose what to train and how Recall should arrange the questions.</p>
+          </div>
+
+          <form id="session-form" class="session-form">
+            <fieldset class="builder-section">
+              <legend>Categories</legend>
+              <div class="builder-heading-row">
+                <p>Select one or more categories.</p>
+                <button class="text-button" id="toggle-all-categories" type="button">Select all</button>
+              </div>
+              <div class="session-category-grid" id="session-category-grid"></div>
+            </fieldset>
+
+            <fieldset class="builder-section">
+              <legend>Question order</legend>
+              <div class="mode-grid">
+                <label><input type="radio" name="mode" value="random" checked><span><strong>Random</strong><small>Shuffle everything</small></span></label>
+                <label><input type="radio" name="mode" value="adaptive"><span><strong>Adaptive</strong><small>Prioritise cards needing work</small></span></label>
+                <label><input type="radio" name="mode" value="weak"><span><strong>Weak only</strong><small>Lowest mastery first</small></span></label>
+                <label><input type="radio" name="mode" value="strong"><span><strong>Strong only</strong><small>Highest mastery first</small></span></label>
+                <label><input type="radio" name="mode" value="mixed"><span><strong>Mixed</strong><small>Balanced weak and strong</small></span></label>
+              </div>
+            </fieldset>
+
+            <div class="builder-columns">
+              <label class="builder-section compact-builder">
+                <span class="builder-label">Number of questions</span>
+                <select id="question-count" name="questionCount">
+                  <option value="10">10 questions</option>
+                  <option value="20" selected>20 questions</option>
+                  <option value="50">50 questions</option>
+                  <option value="100">100 questions</option>
+                  <option value="all">All available</option>
+                </select>
+              </label>
+              <label class="builder-section compact-builder">
+                <span class="builder-label">Timer per question</span>
+                <select id="question-timer" name="timer">
+                  <option value="0">No timer</option>
+                  <option value="5">5 seconds</option>
+                  <option value="10" selected>10 seconds</option>
+                  <option value="20">20 seconds</option>
+                  <option value="30">30 seconds</option>
+                </select>
+              </label>
+            </div>
+
+            <p class="form-error" id="session-error" role="alert" hidden></p>
+            <button class="primary-button wide-button start-session-button" type="submit">Start session</button>
+          </form>
+        </div>
+
+        <section class="question-stage" id="question-stage" aria-label="Practice question" hidden>
+          <header class="question-header">
+            <button class="secondary-button compact-button" id="exit-session-button" type="button">Exit</button>
+            <div class="question-progress">
+              <span id="question-progress-label">1 of 20</span>
+              <div class="progress-track"><span id="question-progress-bar"></span></div>
+            </div>
+            <span class="timer-pill" id="timer-pill">10.0</span>
+          </header>
+
+          <div class="question-surface" id="question-surface">
+            <p class="category-label" id="question-category">Multiplication</p>
+            <h2 id="question-text">17 × 19</h2>
+            <p class="gesture-hint">Hold the question to reveal · Swipe right to skip · Swipe left for don’t know</p>
+          </div>
+
+          <div class="answer-display" id="answer-display" aria-live="polite">
+            <span id="typed-answer" class="answer-placeholder">Your answer</span>
+            <span id="answer-feedback" hidden></span>
+          </div>
+
+          <div class="reveal-actions" id="reveal-actions" hidden>
+            <button class="secondary-button" id="revealed-wrong-button" type="button">Didn’t know</button>
+            <button class="primary-button" id="revealed-right-button" type="button">I knew it</button>
+          </div>
+
+          <div class="numeric-keypad" id="numeric-keypad" aria-label="Numeric keypad">
+            <button type="button" data-key="7">7</button><button type="button" data-key="8">8</button><button type="button" data-key="9">9</button>
+            <button type="button" data-key="4">4</button><button type="button" data-key="5">5</button><button type="button" data-key="6">6</button>
+            <button type="button" data-key="1">1</button><button type="button" data-key="2">2</button><button type="button" data-key="3">3</button>
+            <button type="button" data-key="0">0</button><button class="backspace-key" type="button" data-key="backspace" aria-label="Backspace; hold to clear">⌫</button><button class="submit-key" type="button" data-key="submit" aria-label="Submit answer">✓</button>
+          </div>
+
+          <div class="question-actions">
+            <button class="text-button" id="skip-question-button" type="button">Skip</button>
+            <button class="text-button" id="reveal-answer-button" type="button">Reveal answer</button>
+            <button class="text-button danger-text" id="dont-know-button" type="button">Don’t know</button>
+          </div>
+        </section>
+
+        <section class="session-results" id="session-results" aria-labelledby="results-title" hidden>
+          <p class="eyebrow">Session complete</p>
+          <h1 id="results-title">Nice work.</h1>
+          <p class="results-summary" id="results-summary">You completed 20 questions.</p>
+          <div class="result-metrics" id="result-metrics"></div>
+          <div class="result-breakdown" id="result-breakdown"></div>
+          <div class="result-actions">
+            <button class="secondary-button" id="back-to-builder-button" type="button">Change setup</button>
+            <button class="primary-button" id="repeat-session-button" type="button">Practice again</button>
+          </div>
+        </section>
+      </section>
+
+      <section class="view" data-view="library" aria-labelledby="library-title" hidden>
+        <div class="page-heading page-heading-row">
+          <div>
+            <p class="eyebrow">Your knowledge</p>
+            <h1 id="library-title">Library</h1>
+            <p id="library-summary">Browse and manage every card.</p>
+          </div>
+          <div class="heading-actions">
+            <button class="secondary-button" id="add-category-button" type="button">New category</button>
+            <button class="primary-button" id="add-card-button" type="button">New card</button>
+          </div>
+        </div>
+
+        <div class="library-tools">
+          <label class="search-field">
+            <span class="visually-hidden">Search cards</span>
+            <span aria-hidden="true">⌕</span>
+            <input id="card-search" type="search" placeholder="Search questions or answers" autocomplete="off">
+          </label>
+          <label class="select-field">
+            <span class="visually-hidden">Filter by category</span>
+            <select id="category-filter"></select>
+          </label>
+          <div class="filter-pills" aria-label="Card filters">
+            <button type="button" data-card-filter="all" aria-pressed="true">All</button>
+            <button type="button" data-card-filter="favourite" aria-pressed="false">Favourites</button>
+            <button type="button" data-card-filter="practice" aria-pressed="false">Practice</button>
+          </div>
+        </div>
+
+        <div class="category-strip" id="category-strip" aria-label="Category management"></div>
+        <div class="card-list" id="card-list" aria-live="polite"></div>
+      </section>
+
+      <section class="view" data-view="import" aria-labelledby="import-title" hidden>
+        <div class="page-heading">
+          <p class="eyebrow">Fast card creation</p>
+          <h1 id="import-title">Paste &amp; import</h1>
+          <p>Use one card per line with an equals sign between the question and answer.</p>
+        </div>
+
+        <section class="import-card">
+          <label class="field-label" for="import-category">Add cards to</label>
+          <select id="import-category"></select>
+
+          <label class="field-label" for="import-text">Cards</label>
+          <textarea id="import-text" rows="8" placeholder="17×19 = 323&#10;1/16 = 0.0625&#10;12² = 144"></textarea>
+          <p class="field-help">Blank lines are ignored. The first equals sign separates each question from its answer.</p>
+
+          <div class="form-actions">
+            <button class="secondary-button" id="clear-import-button" type="button">Clear</button>
+            <button class="primary-button" id="preview-import-button" type="button">Preview cards</button>
+          </div>
+        </section>
+
+        <section class="import-preview" id="import-preview" aria-labelledby="preview-title" hidden>
+          <div class="section-heading">
+            <div><p class="card-label">Check before saving</p><h2 id="preview-title">Import preview</h2></div>
+            <span class="count-badge" id="preview-count">0 cards</span>
+          </div>
+          <div id="preview-list" class="preview-list"></div>
+          <button class="primary-button wide-button" id="confirm-import-button" type="button">Import cards</button>
+        </section>
+      </section>
+
+      <section class="view" data-view="settings" aria-labelledby="settings-title" hidden>
+        <div class="page-heading">
+          <p class="eyebrow">Make it yours</p>
+          <h1 id="settings-title">Settings</h1>
+          <p>Preferences are saved on this device.</p>
+        </div>
+
+        <section class="settings-card" aria-labelledby="theme-title">
+          <div><h2 id="theme-title">Theme</h2><p>Choose a fixed look or follow your device.</p></div>
+          <div class="segmented-control" role="radiogroup" aria-label="Theme">
+            <button type="button" role="radio" data-theme-choice="system">System</button>
+            <button type="button" role="radio" data-theme-choice="light">Light</button>
+            <button type="button" role="radio" data-theme-choice="dark">Dark</button>
+          </div>
+        </section>
+
+        <section class="settings-card install-guide" aria-labelledby="install-guide-title">
+          <div>
+            <h2 id="install-guide-title">Install on iPhone</h2>
+            <p>After deployment: open Recall in Safari, tap Share, choose “Add to Home Screen,” then tap “Add.”</p>
+          </div>
+          <span class="version-badge">Safari</span>
+        </section>
+
+        <section class="settings-card app-info" aria-labelledby="version-title">
+          <div><h2 id="version-title">App version</h2><p>Recall 0.3.0 · Practice release</p></div>
+          <span class="version-badge">v0.3.0</span>
+        </section>
+      </section>
+    </main>
+
+    <nav class="tab-bar" aria-label="Primary navigation">
+      <a href="#home" data-route="home"><span class="tab-icon" aria-hidden="true">⌂</span><span>Home</span></a>
+      <a href="#practice" data-route="practice"><span class="tab-icon" aria-hidden="true">▶</span><span>Practice</span></a>
+      <a href="#library" data-route="library"><span class="tab-icon" aria-hidden="true">▤</span><span>Library</span></a>
+      <a href="#import" data-route="import"><span class="tab-icon" aria-hidden="true">⇩</span><span>Import</span></a>
+      <a href="#settings" data-route="settings"><span class="tab-icon" aria-hidden="true">◌</span><span>Settings</span></a>
+    </nav>
+  </div>
+
+  <dialog class="editor-dialog" id="editor-dialog">
+    <form id="editor-form">
+      <div class="dialog-heading">
+        <div><p class="eyebrow" id="dialog-eyebrow">Library editor</p><h2 id="dialog-title">New card</h2></div>
+        <button class="icon-button" id="close-dialog-button" type="button" aria-label="Close">×</button>
+      </div>
+      <div id="editor-fields"></div>
+      <p class="form-error" id="editor-error" role="alert" hidden></p>
+      <div class="form-actions">
+        <button class="secondary-button" id="cancel-dialog-button" type="button">Cancel</button>
+        <button class="primary-button" id="save-editor-button" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <noscript><p class="noscript-message">Recall needs JavaScript enabled to run.</p></noscript>
+</body>
+</html>
