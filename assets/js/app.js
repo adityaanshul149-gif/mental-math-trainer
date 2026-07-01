@@ -663,8 +663,8 @@ function finishAttempt({ correct, classification, reason, enteredAnswer = "" }) 
 
   elements.answerFeedback.hidden = false;
   elements.answerFeedback.textContent = correct
-    ? classification
-    : `${classification} · ${card.answer}`;
+    ? `✅ CORRECT\n${classification}`
+    : `❌ INCORRECT\nAnswer: ${card.answer}`;
   elements.answerFeedback.className = correct ? "is-correct" : "is-incorrect";
   elements.typedAnswer.classList.add("answer-placeholder");
   elements.keypad.hidden = true;
