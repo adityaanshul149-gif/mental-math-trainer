@@ -674,7 +674,7 @@ function finishAttempt({ correct, classification, reason, enteredAnswer = "" }) 
     if (!activeSession) return;
     activeSession.currentIndex += 1;
     showCurrentQuestion();
-  }, 650);
+  }, 1600);
 }
 
 function revealAnswer() {
