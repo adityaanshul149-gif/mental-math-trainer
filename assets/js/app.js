@@ -770,34 +770,61 @@ function returnToBuilder() {
 function handleKeypadClick(event) {
   const button = event.target.closest("[data-key]");
   if (!button || !activeSession || activeSession.locked || activeSession.revealed) return;
+
   const key = button.dataset.key;
+
   if (key === "backspace") {
     if (backspaceLongPressed) {
       backspaceLongPressed = false;
       return;
     }
-    activeSession.typed = activeSession.typed.slice(1);
+
+    activeSession.typed = activeSession.typed.slice(0, -1);
+
   } else if (key === "submit") {
+
     submitTypedAnswer();
     return;
+
   } else {
+
     const categoryName = elements.questionCategory.textContent.toLowerCase();
 
     const calculatorMode =
-        categoryName.includes("multiplication") ||
-        categoryName.includes("square") ||
-        categoryName.includes("cube") ||
-        categoryName.includes("power");
+      categoryName.includes("multiplication") ||
+      categoryName.includes("square") ||
+      categoryName.includes("cube") ||
+      categoryName.includes("power");
 
-    if (calculatorMode) {
-        // Calculator style
-        activeSession.typed = `${key}${activeSession.typed}`;
-    } else {
-        // Normal typing
-        activeSession.typed += key;
+    if (key === "." && activeSession.typed.includes(".")) return;
+
+    if (key === "/" && activeSession.typed.includes("/")) return;
+
+    if (key === "%") {
+      if (activeSession.typed.includes("%")) return;
+      activeSession.typed += "%";
     }
-}
+
+    else if (key === "-") {
+      if (activeSession.typed.startsWith("-")) return;
+      activeSession.typed = "-" + activeSession.typed;
+    }
+
+    else if (calculatorMode) {
+      activeSession.typed = key + activeSession.typed;
+    }
+
+    else {
+      activeSession.typed += key;
+    }
+  }
+
   elements.typedAnswer.textContent = activeSession.typed || "Your answer";
+  elements.typedAnswer.classList.toggle(
+    "answer-placeholder",
+    !activeSession.typed
+  );
+}
   elements.typedAnswer.classList.toggle("answer-placeholder", !activeSession.typed);
 }
 
