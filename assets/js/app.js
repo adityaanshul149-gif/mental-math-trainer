@@ -781,8 +781,22 @@ function handleKeypadClick(event) {
     submitTypedAnswer();
     return;
   } else {
-    activeSession.typed = `${key}${activeSession.typed}`;
-  }
+    const categoryName = elements.questionCategory.textContent.toLowerCase();
+
+    const calculatorMode =
+        categoryName.includes("multiplication") ||
+        categoryName.includes("square") ||
+        categoryName.includes("cube") ||
+        categoryName.includes("power");
+
+    if (calculatorMode) {
+        // Calculator style
+        activeSession.typed = `${key}${activeSession.typed}`;
+    } else {
+        // Normal typing
+        activeSession.typed += key;
+    }
+}
   elements.typedAnswer.textContent = activeSession.typed || "Your answer";
   elements.typedAnswer.classList.toggle("answer-placeholder", !activeSession.typed);
 }
