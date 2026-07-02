@@ -36,6 +36,7 @@ const elements = {
   themeButtons: [...document.querySelectorAll("[data-theme-choice]")],
   connectionStatus: document.querySelector("#connection-status"),
   connectionLabel: document.querySelector("#connection-label"),
+  nextQuestionButton: document.getElementById("next-question-button"),
   categoryCount: document.querySelector("#category-count"),
   cardCount: document.querySelector("#card-count"),
   favouriteCount: document.querySelector("#favourite-count"),
@@ -579,6 +580,7 @@ function showCurrentQuestion() {
   elements.answerFeedback.hidden = true;
   elements.answerFeedback.textContent = "";
   elements.keypad.hidden = false;
+  elements.nextQuestionButton.hidden = true;
   elements.revealActions.hidden = true;
   elements.timerPill.classList.remove("is-urgent");
 
@@ -671,11 +673,7 @@ function finishAttempt({ correct, classification, reason, enteredAnswer = "" }) 
   elements.keypad.hidden = true;
   elements.revealActions.hidden = true;
 
-  setTimeout(() => {
-    if (!activeSession) return;
-    activeSession.currentIndex += 1;
-    showCurrentQuestion();
-  }, 2000);
+  elements.nextQuestionButton.hidden = false;
 }
 
 function revealAnswer() {
@@ -909,6 +907,12 @@ document.querySelector("#back-to-builder-button").addEventListener("click", retu
 document.querySelector("#repeat-session-button").addEventListener("click", () => {
   if (lastSessionConfig) startSessionWithConfig(lastSessionConfig);
 });
+
+elements.nextQuestionButton.addEventListener("click", () => {
+  activeSession.currentIndex += 1;
+  showCurrentQuestion();
+});
+
 elements.keypad.addEventListener("click", handleKeypadClick);
 elements.keypad.addEventListener("pointerdown", beginBackspacePress);
 elements.keypad.addEventListener("pointerup", endBackspacePress);
