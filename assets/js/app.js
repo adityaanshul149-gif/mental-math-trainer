@@ -44,6 +44,7 @@ const elements = {
   sessionCategoryGrid: document.querySelector("#session-category-grid"),
   sessionError: document.querySelector("#session-error"),
   questionStage: document.querySelector("#question-stage"),
+  calculatorMode: document.getElementById("calculator-mode"),
   sessionResults: document.querySelector("#session-results"),
   questionProgressLabel: document.querySelector("#question-progress-label"),
   questionProgressBar: document.querySelector("#question-progress-bar"),
@@ -780,9 +781,13 @@ function handleKeypadClick(event) {
   } else if (key === "submit") {
     submitTypedAnswer();
     return;
-  } else {
+} else {
+  if (elements.calculatorMode.checked) {
     activeSession.typed = `${key}${activeSession.typed}`;
+  } else {
+    activeSession.typed += key;
   }
+}
   elements.typedAnswer.textContent = activeSession.typed || "Your answer";
   elements.typedAnswer.classList.toggle("answer-placeholder", !activeSession.typed);
 }
@@ -796,6 +801,7 @@ function beginBackspacePress(event) {
     backspaceLongPressed = true;
     elements.typedAnswer.textContent = "Your answer";
     elements.typedAnswer.classList.add("answer-placeholder");
+    elements.typedAnswer.textContent = "Your answer";
     navigator.vibrate?.(20);
   }, 550);
 }
