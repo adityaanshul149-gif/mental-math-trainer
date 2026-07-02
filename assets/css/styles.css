@@ -64,29 +64,3 @@
 
 @media(max-width:800px){.mode-grid{grid-template-columns:repeat(2,1fr)}.mode-grid label:last-child{grid-column:1/-1}}@media(max-width:600px){.session-category-grid{grid-template-columns:repeat(2,1fr)}.builder-columns{grid-template-columns:1fr}.question-surface{min-height:22dvh;margin:.7rem 0}.gesture-hint{max-width:18rem}.question-actions{margin-top:.25rem}}@media(max-width:390px){.tab-bar a{font-size:.56rem}.tab-icon{font-size:1.1rem}.builder-section{padding:.9rem}.numeric-keypad button{min-height:3.35rem}.question-surface h2{font-size:2.5rem}.result-metrics{gap:.4rem}.result-metrics article{padding:.8rem .4rem}}
 .calculator-toggle{display:flex;align-items:center;justify-content:center;gap:.55rem;margin:.8rem 0 1rem;font-size:.95rem;font-weight:700;color:var(--text)}.calculator-toggle input{width:1.05rem;height:1.05rem;cursor:pointer}.calculator-toggle span{user-select:none}
-
-
-/* ===== Premium CSS Override Pack ===== */
-:root{--accent:#6f7cff;--accent2:#9f8cff;--shadow:0 20px 60px rgba(0,0,0,.38)}
-body{background:radial-gradient(circle at top right,color-mix(in srgb,var(--accent) 22%,transparent),transparent 35rem),radial-gradient(circle at bottom left,color-mix(in srgb,#3dd9ff 12%,transparent),transparent 28rem),var(--bg)}
-button,.primary-button,.secondary-button,.mini-button,.numeric-keypad button,.library-card,.feature-card,.settings-card,.today-card,.builder-section,.question-surface,.answer-display{transition:all .22s ease}
-.primary-button{background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:1.2rem;box-shadow:0 14px 35px color-mix(in srgb,var(--accent) 30%,transparent)}
-.primary-button:hover{transform:translateY(-2px)}
-.primary-button:active{transform:scale(.96)}
-.question-surface{min-height:18rem;border-radius:2rem;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:var(--shadow)}
-.question-surface h2{font-size:clamp(3rem,13vw,6rem);font-weight:900}
-.answer-display{border-radius:1.5rem;box-shadow:0 10px 35px rgba(0,0,0,.15)}
-.answer-display #typed-answer{font-size:clamp(2rem,9vw,3rem)}
-.answer-display #answer-feedback.is-correct{font-size:2.2rem}
-.answer-display #answer-feedback.is-incorrect{font-size:2rem}
-.numeric-keypad{gap:.8rem}
-.numeric-keypad button{min-height:5.2rem;border-radius:1.3rem;font-size:1.7rem;background:linear-gradient(180deg,color-mix(in srgb,var(--soft) 82%,white),var(--soft));box-shadow:0 8px 18px rgba(0,0,0,.15)}
-.numeric-keypad button:active{transform:scale(.94)}
-.numeric-keypad .submit-key{background:linear-gradient(135deg,#45d38f,var(--accent))}
-.numeric-keypad .backspace-key{background:linear-gradient(135deg,#2a2f3b,var(--soft))}
-.library-card,.feature-card,.settings-card,.today-card,.builder-section{border-radius:1.6rem;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:var(--shadow)}
-.tab-bar{border-radius:1.8rem;backdrop-filter:blur(30px) saturate(170%);-webkit-backdrop-filter:blur(30px) saturate(170%)}
-.tab-bar a[aria-current="page"]{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 18%,transparent),var(--soft))}
-.progress-track{height:.45rem}
-.progress-track span{background:linear-gradient(90deg,var(--accent2),var(--accent))}
-.toast{border-radius:1.2rem}
