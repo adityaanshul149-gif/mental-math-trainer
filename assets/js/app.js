@@ -664,8 +664,8 @@ function finishAttempt({ correct, classification, reason, enteredAnswer = "" }) 
 
   elements.answerFeedback.hidden = false;
   elements.answerFeedback.textContent = correct
-    ? classification
-    : `${classification} · ${card.answer}`;
+    ? `✅ CORRECT\n${classification}`
+    : `❌ INCORRECT\nAnswer: ${card.answer}`;
   elements.answerFeedback.className = correct ? "is-correct" : "is-incorrect";
   elements.typedAnswer.classList.add("answer-placeholder");
   elements.keypad.hidden = true;
@@ -675,7 +675,7 @@ function finishAttempt({ correct, classification, reason, enteredAnswer = "" }) 
     if (!activeSession) return;
     activeSession.currentIndex += 1;
     showCurrentQuestion();
-  }, 650);
+  }, 2000);
 }
 
 function revealAnswer() {
@@ -771,14 +771,19 @@ function returnToBuilder() {
 function handleKeypadClick(event) {
   const button = event.target.closest("[data-key]");
   if (!button || !activeSession || activeSession.locked || activeSession.revealed) return;
+
   const key = button.dataset.key;
+
   if (key === "backspace") {
     if (backspaceLongPressed) {
       backspaceLongPressed = false;
       return;
     }
-    activeSession.typed = activeSession.typed.slice(1);
+
+    activeSession.typed = activeSession.typed.slice(0, -1);
+
   } else if (key === "submit") {
+
     submitTypedAnswer();
     return;
 } else {
@@ -789,7 +794,11 @@ function handleKeypadClick(event) {
   }
 }
   elements.typedAnswer.textContent = activeSession.typed || "Your answer";
-  elements.typedAnswer.classList.toggle("answer-placeholder", !activeSession.typed);
+  elements.typedAnswer.classList.toggle(
+    "answer-placeholder",
+    !activeSession.typed
+  );
+      
 }
 
 function beginBackspacePress(event) {
