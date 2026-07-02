@@ -502,7 +502,6 @@ function readSessionConfig() {
     categoryIds: formData.getAll("sessionCategory").map(String),
     mode: String(formData.get("mode") ?? "random"),
     questionCount: String(formData.get("questionCount") ?? "20"),
-    timer: Number(formData.get("timer") ?? 0)
   };
 }
 
@@ -584,12 +583,7 @@ function showCurrentQuestion() {
   elements.revealActions.hidden = true;
   elements.timerPill.classList.remove("is-urgent");
 
-  if (activeSession.config.timer > 0) {
-    renderTimer();
-    activeSession.timerId = setInterval(tickTimer, 100);
-  } else {
-    elements.timerPill.textContent = "∞";
-  }
+clearInterval(activeSession.timerId);
 }
 
 function tickTimer() {
